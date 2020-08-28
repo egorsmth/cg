@@ -37,10 +37,10 @@ void DrawShit() {
     glEnd();
 }
 
-void DrawStar() {
+void DrawStar(float i) {
     glBegin(GL_TRIANGLE_FAN);
         glColor3f( 0, 1, 1 );
-        glVertex2f(0, 0);
+        glVertex2f(0+i, 0);
 
         glColor3f( 1, 1, 1 );
         glVertex2f(0, 0.5);
@@ -77,6 +77,32 @@ void DrawStar() {
     glEnd();
 }
 
+void DrawPoints() {
+
+    glBegin(GL_POINTS);
+        glVertex2f(0, 0.5);
+        glVertex2f(0, -0.5);
+        glVertex2f(0, -0.5);
+        glVertex2f(0.5, 0);
+        glVertex2f(-0.5, 0);
+    glEnd();
+}
+
+
+void DrawF() {
+
+    glBegin(GL_LINES);
+        glVertex2f(0, 0.5);
+        glVertex2f(0, -0.5);
+
+        glVertex2f(0.5, 0.5);
+        glVertex2f(0, 0.5);
+
+        glVertex2f(0.5, 0);
+        glVertex2f(0, 0);
+    glEnd();
+}
+
 int main(int argc, char** argv)
 {
     GLFWwindow* window;
@@ -89,7 +115,11 @@ int main(int argc, char** argv)
 	glLoadIdentity();
 	glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable( GL_DEPTH_TEST );
+    glTranslatef(0.5, 0, 0);
+    glRotatef(90, 0, 0, 1);
 
+
+    float i = 0.0;
     while (!glfwWindowShouldClose(window))
     {
         
@@ -103,9 +133,11 @@ int main(int argc, char** argv)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glShadeModel( GL_FLAT ); // or GL_SMOOTH
 
-        DrawStar();
+        //DrawStar(i);
 
-        DrawShit();
+        //DrawShit();
+
+        DrawF();
 
         glFlush();
         glfwSetTime(0);
@@ -113,6 +145,7 @@ int main(int argc, char** argv)
         glfwSwapBuffers(window);
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
+        i += 0.001;
     }
 
     // Terminate GLFW, clearing any resources allocated by GLFW.
