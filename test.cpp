@@ -145,9 +145,9 @@ int main(int argc, char **argv)
     window = glfwCreateWindow(640, 480, argv[0], NULL, NULL);
     glfwMakeContextCurrent(window);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0f, (float)640 / (float)480, 0.1f, 100.0f);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, (float)640 / (float)480, 0.1f, 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -165,23 +165,26 @@ int main(int argc, char **argv)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glShadeModel(GL_FLAT); // or GL_SMOOTH
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
-    solar(1.0f, 1.0f);
-
-    glFlush();
-    glfwSetTime(0);
-    // Swap the screen buffers
-    glfwSwapBuffers(window);
+    long i = 1;
     while (!glfwWindowShouldClose(window))
     {
 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glColor3f(1, 1, 1);
         //DrawStar(i);
 
         //DrawShit();
 
         //DrawF();
         //gluSphere(gluNewQuadric(), 0.8, 15, 15);
-
+        solar(i % 24, ((int)(i / 24)) % 365);
+        i += 6;
+        glFlush();
+        glfwSetTime(0);
+        // Swap the screen buffers
+        glfwSwapBuffers(window);
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
     }
