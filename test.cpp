@@ -116,6 +116,15 @@ void solar(float HourOfDay, float DayOfYear)
     // Draw the sun -- as a yellow, wireframe sphere
     glColor3f(1.0, 1.0, 0.0);
     gluSphere(gluNewQuadric(), 0.8, 15, 15); // Radius = 0.8 units.
+    
+    // closer to sun planet
+    glPushMatrix();
+    glRotatef(360.0 * 2 * DayOfYear / 365.0, 0.0, 1.0, 0.0);
+    glTranslatef(2.0, 0.0, 0.0);
+    glColor3f(0.7, 0.7, 0.8);
+    gluSphere(gluNewQuadric(), 0.2, 10, 10);
+    glPopMatrix();
+
     // Draw the Earth
     // First position it around the sun
     // Use DayOfYear to determine its position
@@ -123,18 +132,38 @@ void solar(float HourOfDay, float DayOfYear)
     glTranslatef(4.0, 0.0, 0.0);
     // Second, rotate the earth on its axis.
     // Use HourOfDay to determine its rotation.
+
     glPushMatrix(); // Save matrix state
     glRotatef(360.0 * HourOfDay / 24.0, 0.0, 1.0, 0.0);
     // Third, draw as a blue, wireframe sphere.
     glColor3f(0.2, 0.2, 1.0);
     gluSphere(gluNewQuadric(), 0.4, 10, 10);
     glPopMatrix(); // Restore matrix state
+    
+    // geospatiol moon
+    glPushMatrix(); // Save matrix state
+    glRotatef(360.0 * 365.0 * DayOfYear / 365.0, 0.0, 1.0, 0.0);
+    glTranslatef(1.3, 0.0, 0.0);
+    glColor3f(0.1, 0.9, 0.9);
+    gluSphere(gluNewQuadric(), 0.1, 7, 7);
+    glPopMatrix(); // Restore matrix state
     // Draw the moon.
     // Use DayOfYear to control its rotation around the earth
+    glPushMatrix(); // Save matrix state
     glRotatef(360.0 * 12.0 * DayOfYear / 365.0, 0.0, 1.0, 0.0);
     glTranslatef(0.7, 0.0, 0.0);
     glColor3f(0.3, 0.7, 0.3);
-    gluSphere(gluNewQuadric(), 0.1, 5, 5);
+    gluSphere(gluNewQuadric(), 0.1, 7, 7);
+    glPopMatrix(); // Restore matrix state
+
+    // retrograd moon
+    glRotatef(90.0, 1.0, 0.0, 0.0);
+    glPushMatrix(); // Save matrix state
+    glRotatef(360.0 * 12.0 * DayOfYear / -365.0, 0.0, 1.0, 0.0);
+    glTranslatef(0.7, 0.0, 0.0);
+    glColor3f(0.7, 0.1, 0.7);
+    gluSphere(gluNewQuadric(), 0.1, 7, 7);
+    glPopMatrix(); // Restore matrix state
 }
 
 int main(int argc, char **argv)
